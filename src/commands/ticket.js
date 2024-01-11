@@ -70,14 +70,14 @@ module.exports = {
             }   
         }
 
-        if(tipo === "member") {
+        if(type === "member") {
             const row = new ActionRowBuilder()
                 .addComponents(new ButtonBuilder().setCustomId("add-member").setLabel("Add member").setStyle(ButtonStyle.Success))
                 .addComponents(new ButtonBuilder().setCustomId("remove-member").setLabel("Remove member").setStyle(ButtonStyle.Danger))
 
             const embed = new EmbedBuilder()
                 .setColor("Blue")
-                .setDescription(`Do you want to add or remove the user **${membro.id}** from the ticket?`)
+                .setDescription(`Do you want to add or remove the user **${member.id}** from the ticket?`)
             interaction.reply({embeds: [embed], components: [row]})
 
             const collector = interaction.channel.createMessageComponentCollector({componentType: ComponentType.Button})
@@ -87,12 +87,12 @@ module.exports = {
                     const embed = new EmbedBuilder()
                         .setColor("Green")
                         .setAuthor({name: `📩 • Ticket | ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`})
-                        .setDescription(`- **${membro.id}** has been added to the ticket.`)
-                    interaction.channel.send({embeds: [embed], content: `<@${membro.id}>`})
+                        .setDescription(`- **${member.id}** has been added to the ticket.`)
+                    interaction.channel.send({embeds: [embed], content: `<@${member.id}>`})
 
                     interaction.channel.permissionOverwrites.set([
                         {
-                            id: membro.id,
+                            id: member.id,
                             allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
                         },
                         {
@@ -112,12 +112,12 @@ module.exports = {
                     const embed = new EmbedBuilder()
                         .setColor("Red")
                         .setAuthor({name: `📩 • Ticket | ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`})
-                        .setDescription(`- **${membro.id}** has been removed from the ticket.`)
+                        .setDescription(`- **${member.id}** has been removed from the ticket.`)
                     interaction.channel.send({embeds: [embed]})
 
                     interaction.channel.permissionOverwrites.set([
                         {
-                            id: membro.id,
+                            id: member.id,
                             deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
                         },
                         {
