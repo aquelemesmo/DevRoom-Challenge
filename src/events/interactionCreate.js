@@ -295,19 +295,12 @@ module.exports = async (bot, interaction) => {
 
             setTimeout(async () => {
                 const attachment = await discordTranscripts.createTranscript(interaction.channel, {
-                    limit: -1, // Max amount of messages to fetch. `-1` recursively fetches.
-                    returnType: 'attachment', // Valid options: 'buffer' | 'string' | 'attachment' Default: 'attachment' OR use the enum ExportReturnType
-                    filename: 'transcript.html', // Only valid with returnType is 'attachment'. Name of attachment.
-                    saveImages: false, // Download all images and include the image data in the HTML (allows viewing the image even after it has been deleted) (! WILL INCREASE FILE SIZE !)
-                    // footerText: "Exported {number} message{s}", // Change text at footer, don't forget to put {number} to show how much messages got exported, and {s} for plural
-                    callbacks: {
-                    // register custom callbacks for the following:
-                    //   resolveChannel: (channelId: string) => Awaitable<Channel | null>,
-                    //   resolveUser: (userId: string) => Awaitable<User | null>,
-                    //   resolveRole: (roleId: string) => Awaitable<Role | null>
-                    },
-                    poweredBy: false, // Whether to include the "Powered by discord-html-transcripts" footer
-                    ssr: true // Whether to hydrate the html server-side
+                    limit: -1,
+                    returnType: 'attachment',
+                    filename: 'transcript.html',
+                    saveImages: false,
+                    poweredBy: false,
+                    ssr: true
                 });
     
                 const embed = new EmbedBuilder()

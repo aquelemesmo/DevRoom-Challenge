@@ -1,6 +1,5 @@
 const { ApplicationCommandType, ApplicationCommandOptionType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const TicketSetup = require("../database/TicketSetup.js");
-const chalk = require("chalk")
 
 module.exports = {
     name: "ticket",
