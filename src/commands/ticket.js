@@ -70,5 +70,70 @@ module.exports = {
                 }
             }   
         }
+
+        if(tipo === "member") {
+            const row = new ActionRowBuilder()
+                .addComponents(new ButtonBuilder().setCustomId("add-member").setLabel("Add member").setStyle(ButtonStyle.Success))
+                .addComponents(new ButtonBuilder().setCustomId("remove-member").setLabel("Remove member").setStyle(ButtonStyle.Danger))
+
+            const embed = new EmbedBuilder()
+                .setColor("Blue")
+                .setDescription(`Do you want to add or remove the user **${membro.id}** from the ticket?`)
+            interaction.reply({embeds: [embed], components: [row]})
+
+            const collector = interaction.channel.createMessageComponentCollector({componentType: ComponentType.Button})
+
+            collector.on("collect", async r => {
+                if(r.customId === "add-member") {
+                    const embed = new EmbedBuilder()
+                        .setColor("Green")
+                        .setAuthor({name: `📩 • Ticket | ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`})
+                        .setDescription(`- **${membro.id}** has been added to the ticket.`)
+                    interaction.channel.send({embeds: [embed], content: `<@${membro.id}>`})
+
+                    interaction.channel.permissionOverwrites.set([
+                        {
+                            id: membro.id,
+                            allow: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                        },
+                        {
+                            id: interaction.guild.id,
+                            deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                        }
+                    ])
+
+                    const row = ActionRowBuilder.from(interaction.message.components[0])
+                    row.components[0].setDisabled(true)
+                    row.components[1].setDisabled(true)
+
+                    interaction.message.edit({ components: [row] })
+                }
+
+                if(r.customId === "remove-member") {
+                    const embed = new EmbedBuilder()
+                        .setColor("Red")
+                        .setAuthor({name: `📩 • Ticket | ${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}`})
+                        .setDescription(`- **${membro.id}** has been removed from the ticket.`)
+                    interaction.channel.send({embeds: [embed]})
+
+                    interaction.channel.permissionOverwrites.set([
+                        {
+                            id: membro.id,
+                            deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                        },
+                        {
+                            id: interaction.guild.id,
+                            deny: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]
+                        }
+                    ])
+
+                    const row = ActionRowBuilder.from(interaction.message.components[0])
+                    row.components[0].setDisabled(true)
+                    row.components[1].setDisabled(true)
+
+                    interaction.message.edit({ components: [row] })
+                }
+            })
+        }
     }
 }
