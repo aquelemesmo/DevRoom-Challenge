@@ -6,15 +6,6 @@ const { Sequelize } = require('sequelize');
 const chalk = require("chalk")
 bot.slashCommands = new Collection()
 
-const sequelize = new Sequelize({
-    dialect: 'mysql',
-    database: 'aql_teste',
-    username: 'root',
-    password: '',
-    host: '127.0.0.1',
-    port: '3306'
-})
-
 require("./src/database/TicketSetup.js")
 require("./src/handler/Handler.js")(bot)
 
@@ -26,12 +17,5 @@ fs.readdir("./src/events", (err, files) => {
         bot.on(eventName, event.bind(null, bot))
     })    
 })
-
-try { 
-    sequelize.authenticate()
-    console.log(chalk.green('[SUCCESS] ') + 'Connection has been established successfully.')
-} catch (error) {
-    console.error(chalk.red('[ERROR] ') + 'Unable to connect to the database:', error)
-}
 
 bot.login(process.env.TOKEN)

@@ -1,12 +1,21 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const chalk = require("chalk")
+
 const sequelize = new Sequelize({
     dialect: 'mysql',
     database: process.env.MYSQL_DATABASE,
     username: process.env.MYSQL_ROOT,
-    password: '',
+    password: process.env.MYSQL_PASSWORD,
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT ?? 3306
 })
+
+try { 
+    sequelize.authenticate()
+    console.log(chalk.green('[SUCCESS] ') + 'Connection has been established successfully.')
+} catch (error) {
+    console.error(chalk.red('[ERROR] ') + 'Unable to connect to the database:', error)
+}
 
 const TicketSetup = sequelize.define('ticket', {
     id: {
@@ -62,5 +71,6 @@ const TicketSetup = sequelize.define('ticket', {
 })
 
 TicketSetup.sync()
+
 
 module.exports = TicketSetup;
