@@ -14,13 +14,7 @@ module.exports = async (bot, interaction) => {
     const closeTicketRow = new ActionRowBuilder()
     .addComponents(new ButtonBuilder().setCustomId("close-ticket").setLabel("Close ticket").setStyle(ButtonStyle.Danger))
 
-    if(interaction.isStringSelectMenu()) {
-        interaction.deferUpdate()
-        
-
-    }
-
-        /*
+    /*
 
     Ticket configuration (/config ticket)
 
